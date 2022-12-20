@@ -74,6 +74,8 @@ argocd app sync webapp
 kubectl port-forward -n webapp service/simple-service 31000:8080
 ```
 
+---
+
 ## Reconciliation
 
 Bump the container version in the deployment.yml (line 18) as shown below:
@@ -92,3 +94,25 @@ Sync the application:
 argocd app sync webapp
 argocd app wait webapp
 ````
+
+---
+
+## Managing secrets
+
+Install Bitnami Sealed Secrets using helm
+```sh
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm repo update
+helm install sealed-secrets-controller sealed-secrets/sealed-secrets
+```
+
+Install kubeseal on MacOS
+```sh
+brew install kubeseal
+```
+
+Encrypt secrets example:
+```sh
+kubeseal < unsealed_secret_file_.yml > sealed_secrets_file.yaml -o yaml
+```
+
